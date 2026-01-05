@@ -2,202 +2,112 @@
 
 @section('title', 'Data Proyek')
 
-@push('styles')
-<style>
-    .project-card {
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        overflow: hidden;
-        margin-bottom: 30px;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-    }
-    .project-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 5px 20px rgba(0,0,0,0.15);
-    }
-    .project-card-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: #fff;
-        padding: 20px;
-    }
-    .project-card-body {
-        padding: 20px;
-    }
-    .project-info-item {
-        display: flex;
-        align-items: center;
-        margin-bottom: 12px;
-        padding-bottom: 12px;
-        border-bottom: 1px solid #f0f0f0;
-    }
-    .project-info-item:last-child {
-        border-bottom: none;
-    }
-    .project-info-item i {
-        color: #667eea;
-        width: 25px;
-        margin-right: 10px;
-    }
-    .project-info-label {
-        font-weight: 600;
-        min-width: 120px;
-        color: #666;
-    }
-    .project-info-value {
-        color: #333;
-    }
-    .search-filter-section {
-        background: #fff;
-        padding: 30px;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        margin-bottom: 30px;
-    }
-    .page-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: #fff;
-        padding: 60px 0;
-        margin-bottom: 40px;
-    }
-</style>
-@endpush
+@section('cta_button')
+    <a class="btn btn-outline-primary border-2" href="{{ route('proyek.create') }}">
+        <i class="fa fa-plus me-2"></i>Tambah Proyek
+    </a>
+@stop
+
+@section('content_header')
+    <h1>Data Proyek</h1>
+@stop
 
 @section('content')
-<!-- Page Header -->
-<div class="page-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-12 text-center">
-                <h1 class="display-4 text-white mb-0">Data Proyek</h1>
-                <p class="text-white-50">Sistem Manajemen Proyek Pembangunan</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<!-- Main Content -->
-<div class="container py-5">
     @if (session('success'))
-        <div class="alert alert-success alert-dismissible fade show" role="alert">
-            <i class="fa fa-check-circle me-2"></i>{{ session('success') }}
-            <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
-        </div>
+        <div class="alert alert-success">{{ session('success') }}</div>
     @endif
 
-    <!-- Search and Filter Section -->
-    <div class="search-filter-section">
-        <div class="row align-items-center mb-3">
-            <div class="col-md-6">
-                <h4 class="mb-0"><i class="fa fa-filter me-2"></i>Filter & Pencarian</h4>
-            </div>
-            <div class="col-md-6 text-end">
-                <a href="{{ route('proyek.create') }}" class="btn btn-primary">
-                    <i class="fa fa-plus me-2"></i>Tambah Proyek Baru
-                </a>
-            </div>
-        </div>
-        <form action="{{ route('proyek.index') }}" method="GET">
-            <div class="row">
-                <div class="col-md-4 mb-3">
-                    <label class="form-label">Cari Proyek</label>
-                    <input type="text" name="search" class="form-control" placeholder="Nama atau Kode Proyek..." value="{{ request('search') }}">
+    <div class="card mb-3">
+        <div class="card-body">
+            <form class="row g-3" method="GET" action="{{ route('proyek.index') }}">
+                <div class="col-md-4">
+                    <input type="text" name="search" value="{{ request('search') }}" class="form-control"
+                           placeholder="Cari nama/kode proyek">
                 </div>
-                <div class="col-md-3 mb-3">
-                    <label class="form-label">Filter Tahun</label>
+                <div class="col-md-3">
                     <select name="tahun" class="form-control">
-                        <option value="">Semua Tahun</option>
-                        @foreach($tahuns as $t)
-                            <option value="{{ $t }}" {{ request('tahun') == $t ? 'selected' : '' }}>{{ $t }}</option>
+                        <option value="">-- Semua Tahun --</option>
+                        @foreach($tahuns as $tahun)
+                            <option value="{{ $tahun }}" {{ request('tahun') == $tahun ? 'selected' : '' }}>{{ $tahun }}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-3 mb-3">
-                    <label class="form-label">Filter Sumber Dana</label>
+                <div class="col-md-3">
                     <select name="sumber_dana" class="form-control">
-                        <option value="">Semua Sumber Dana</option>
+                        <option value="">-- Semua Sumber Dana --</option>
                         @foreach($sumberDanas as $sd)
                             <option value="{{ $sd }}" {{ request('sumber_dana') == $sd ? 'selected' : '' }}>{{ $sd }}</option>
                         @endforeach
                     </select>
                 </div>
-                <div class="col-md-2 mb-3">
-                    <label class="form-label">&nbsp;</label>
-                    <button type="submit" class="btn btn-secondary w-100">
-                        <i class="fa fa-search me-2"></i>Cari
-                    </button>
+                <div class="col-md-2 d-flex gap-2">
+                    <button class="btn btn-primary w-100" type="submit">Filter</button>
+                    <a href="{{ route('proyek.index') }}" class="btn btn-secondary w-100">Reset</a>
                 </div>
-            </div>
-        </form>
-    </div>
-
-    <!-- Project Cards Grid -->
-    <div class="row">
-        @forelse ($proyeks as $item)
-            <div class="col-lg-6">
-                <div class="project-card">
-                    <div class="project-card-header">
-                        <h5 class="mb-1">{{ $item->nama_proyek }}</h5>
-                        <p class="mb-0 opacity-75"><i class="fa fa-code me-2"></i>{{ $item->kode_proyek }}</p>
-                    </div>
-                    <div class="project-card-body">
-                        <div class="project-info-item">
-                            <i class="fa fa-calendar"></i>
-                            <span class="project-info-label">Tahun</span>
-                            <span class="project-info-value">{{ $item->tahun }}</span>
-                        </div>
-                        <div class="project-info-item">
-                            <i class="fa fa-map-marker-alt"></i>
-                            <span class="project-info-label">Lokasi</span>
-                            <span class="project-info-value">{{ $item->lokasi }}</span>
-                        </div>
-                        <div class="project-info-item">
-                            <i class="fa fa-money-bill-wave"></i>
-                            <span class="project-info-label">Anggaran</span>
-                            <span class="project-info-value">Rp {{ number_format($item->anggaran, 0, ',', '.') }}</span>
-                        </div>
-                        <div class="project-info-item">
-                            <i class="fa fa-university"></i>
-                            <span class="project-info-label">Sumber Dana</span>
-                            <span class="project-info-value">{{ $item->sumber_dana }}</span>
-                        </div>
-                        <div class="project-info-item">
-                            <i class="fa fa-info-circle"></i>
-                            <span class="project-info-label">Deskripsi</span>
-                            <span class="project-info-value">{{ Str::limit($item->deskripsi, 80) }}</span>
-                        </div>
-                        <div class="d-flex gap-2 mt-3">
-                            <a href="{{ route('proyek.show', $item->proyek_id) }}" class="btn btn-info btn-sm flex-fill">
-                                <i class="fa fa-eye me-1"></i>Detail
-                            </a>
-                            <a href="{{ route('proyek.edit', $item->proyek_id) }}" class="btn btn-warning btn-sm flex-fill">
-                                <i class="fa fa-edit me-1"></i>Edit
-                            </a>
-                            <form action="{{ route('proyek.destroy', $item->proyek_id) }}" method="POST" class="flex-fill" onsubmit="return confirm('Yakin ingin menghapus proyek ini?')">
-                                @csrf
-                                @method('DELETE')
-                                <button type="submit" class="btn btn-danger btn-sm w-100">
-                                    <i class="fa fa-trash me-1"></i>Hapus
-                                </button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        @empty
-            <div class="col-12">
-                <div class="alert alert-info text-center">
-                    <i class="fa fa-info-circle me-2"></i>Tidak ada data proyek ditemukan.
-                </div>
-            </div>
-        @endforelse
-    </div>
-
-    <!-- Pagination -->
-    @if($proyeks->hasPages())
-        <div class="d-flex justify-content-center mt-4">
-            {{ $proyeks->withQueryString()->links() }}
+            </form>
         </div>
-    @endif
-</div>
-@endsection
+    </div>
+
+    <div class="card">
+        <div class="card-header d-flex justify-content-between align-items-center">
+            <h3 class="card-title mb-0">List Proyek</h3>
+            <a href="{{ route('proyek.create') }}" class="btn btn-primary">
+                <i class="fa fa-plus"></i> Tambah Proyek
+            </a>
+        </div>
+        <div class="card-body">
+            <div class="row">
+                @forelse ($proyeks as $proyek)
+                    <div class="col-lg-4 col-md-6 mb-3">
+                        <div class="card h-100 shadow-sm">
+                            <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+                                <div>
+                                    <h5 class="mb-1">{{ $proyek->nama_proyek }}</h5>
+                                    <small>Kode: {{ $proyek->kode_proyek }}</small>
+                                </div>
+                                <span class="badge bg-light text-primary">{{ $proyek->tahun }}</span>
+                            </div>
+                            <div class="card-body">
+                                <p class="mb-1"><strong>Lokasi:</strong> {{ $proyek->lokasi }}</p>
+                                <p class="mb-1"><strong>Anggaran:</strong> {{ number_format($proyek->anggaran, 2) }}</p>
+                                <p class="mb-1"><strong>Sumber Dana:</strong> {{ $proyek->sumber_dana }}</p>
+                                @if($proyek->deskripsi)
+                                    <p class="mb-1 text-muted">{{ Str::limit($proyek->deskripsi, 100) }}</p>
+                                @endif
+                                @if($proyek->dokumen)
+                                    <a href="{{ asset('uploads/proyek/'.$proyek->dokumen) }}" target="_blank" class="small text-primary">
+                                        <i class="fa fa-file"></i> Lihat Dokumen
+                                    </a>
+                                @endif
+                            </div>
+                            <div class="card-footer d-flex justify-content-end gap-2">
+                                <a href="{{ route('proyek.show', $proyek->proyek_id) }}" class="btn btn-sm btn-info">
+                                    <i class="fa fa-eye"></i>
+                                </a>
+                                <a href="{{ route('proyek.edit', $proyek->proyek_id) }}" class="btn btn-sm btn-warning">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                                <form action="{{ route('proyek.destroy', $proyek->proyek_id) }}" method="POST" onsubmit="return confirm('Yakin ingin menghapus proyek ini?')">
+                                    @csrf
+                                    @method('DELETE')
+                                    <button class="btn btn-sm btn-danger">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                @empty
+                    <div class="col-12 text-center">
+                        <p class="text-muted mb-0">Belum ada data proyek</p>
+                    </div>
+                @endforelse
+            </div>
+
+            <div class="mt-3">
+                {{ $proyeks->withQueryString()->links() }}
+            </div>
+        </div>
+    </div>
+@stop
+

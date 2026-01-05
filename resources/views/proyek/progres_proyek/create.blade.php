@@ -1,22 +1,21 @@
 @extends('layouts.poseify')
 
-@section('title', 'Edit Tahapan Proyek')
+@section('title', 'Tambah Tahapan Proyek')
 
 @section('content_header')
-    <h1>Edit Tahapan Proyek</h1>
+    <h1>Tambah Tahapan Proyek</h1>
 @stop
 
 @section('content')
     <div class="card">
         <div class="card-body">
-            <form action="{{ route('tahapan_proyek.update', $tahapan->tahap_id) }}" method="POST">
+            <form action="{{ route('tahapan_proyek.store') }}" method="POST">
                 @csrf
-                @method('PUT')
 
                 @include('tahapan_proyek.form')
 
                 <button type="submit" class="btn btn-primary mt-3">
-                    <i class="fa fa-save"></i> Update
+                    <i class="fa fa-save"></i> Simpan
                 </button>
                 <a href="{{ route('tahapan_proyek.index') }}" class="btn btn-secondary mt-3">
                     <i class="fa fa-arrow-left"></i> Kembali
@@ -25,3 +24,4 @@
         </div>
     </div>
 @stop
+

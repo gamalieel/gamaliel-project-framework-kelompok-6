@@ -33,7 +33,7 @@ class ProyekController extends Controller
             $query->where('sumber_dana', $request->sumber_dana);
         }
 
-        $proyeks = $query->paginate(5);
+        $proyeks = $query->paginate(3);
 
         // Get distinct values for filters
         $tahuns = Proyek::select('tahun')->distinct()->whereNotNull('tahun')->orderBy('tahun', 'desc')->pluck('tahun');

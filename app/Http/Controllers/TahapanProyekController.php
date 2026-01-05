@@ -23,7 +23,7 @@ class TahapanProyekController extends Controller
     public function create()
     {
         $proyeks = Proyek::all();
-        return view('tahapan_proyek.create', compact('proyeks'));
+        return view('tahapan.create', compact('proyeks'));
     }
 
     /**

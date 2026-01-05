@@ -19,4 +19,24 @@ class Proyek extends Model
         'deskripsi',
         'dokumen',
     ];
+
+    public function tahapan()
+    {
+        return $this->hasMany(TahapanProyek::class, 'proyek_id', 'proyek_id');
+    }
+
+    public function progress()
+    {
+        return $this->hasMany(ProgressProyek::class, 'proyek_id', 'proyek_id');
+    }
+
+    public function lokasiProyek()
+    {
+        return $this->hasMany(LokasiProyek::class, 'proyek_id', 'proyek_id');
+    }
+
+    public function kontraktor()
+    {
+        return $this->hasMany(Kontraktor::class, 'proyek_id', 'proyek_id');
+    }
 }

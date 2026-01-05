@@ -32,14 +32,6 @@
 </head>
 
 <body>
-    <!-- Spinner Start -->
-    <div id="spinner" class="show bg-dark position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
-        <div class="spinner-grow text-primary" style="width: 3rem; height: 3rem;" role="status">
-            <span class="sr-only">Loading...</span>
-        </div>
-    </div>
-    <!-- Spinner End -->
-
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark px-lg-5 py-3 py-lg-0">
         <a href="{{ url('/') }}" class="navbar-brand ms-4 ms-lg-0">
@@ -54,13 +46,19 @@
                 <a href="{{ route('proyek.index') }}" class="nav-item nav-link active">Data Proyek</a>
             </div>
             <div class="d-none d-lg-flex">
-                <a class="btn btn-outline-primary border-2" href="{{ route('proyek.create') }}">
-                    <i class="fa fa-plus me-2"></i>Tambah Proyek
-                </a>
+                @hasSection('cta_button')
+                    @yield('cta_button')
+                @else
+                    <a class="btn btn-outline-primary border-2" href="{{ route('proyek.create') }}">
+                        <i class="fa fa-plus me-2"></i>Tambah Proyek
+                    </a>
+                @endif
             </div>
         </div>
     </nav>
     <!-- Navbar End -->
+
+    @yield('header')
 
     @yield('content')
 

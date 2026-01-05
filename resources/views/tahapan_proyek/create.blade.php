@@ -1,4 +1,4 @@
-@extends('adminlte::page')
+@extends('layouts.poseify')
 
 @section('title', 'Tambah Tahapan Proyek')
 

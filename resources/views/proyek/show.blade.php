@@ -2,140 +2,49 @@
 
 @section('title', 'Detail Proyek')
 
-@push('styles')
-<style>
-    .detail-card {
-        background: #fff;
-        border-radius: 8px;
-        box-shadow: 0 2px 10px rgba(0,0,0,0.1);
-        overflow: hidden;
-    }
-    .detail-card-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: #fff;
-        padding: 30px;
-    }
-    .detail-card-body {
-        padding: 30px;
-    }
-    .detail-item {
-        display: flex;
-        padding: 15px 0;
-        border-bottom: 1px solid #f0f0f0;
-    }
-    .detail-item:last-child {
-        border-bottom: none;
-    }
-    .detail-label {
-        font-weight: 600;
-        min-width: 150px;
-        color: #666;
-        display: flex;
-        align-items: center;
-    }
-    .detail-label i {
-        color: #667eea;
-        width: 25px;
-        margin-right: 10px;
-    }
-    .detail-value {
-        color: #333;
-        flex: 1;
-    }
-    .page-header {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: #fff;
-        padding: 60px 0;
-        margin-bottom: 40px;
-    }
-</style>
-@endpush
+@section('cta_button')
+    <a class="btn btn-outline-primary border-2" href="{{ route('proyek.create') }}">
+        <i class="fa fa-plus me-2"></i>Tambah Proyek
+    </a>
+@stop
+
+@section('content_header')
+    <h1>Detail Proyek</h1>
+@stop
 
 @section('content')
-<div class="page-header">
-    <div class="container">
-        <div class="row">
-            <div class="col-12">
-                <h1 class="display-5 text-white mb-2">
-                    <i class="fa fa-eye me-2"></i>Detail Proyek
-                </h1>
-                <p class="text-white-50 mb-0">Informasi lengkap proyek {{ $proyek->nama_proyek }}</p>
+    <div class="card">
+        <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+            <div>
+                <h4 class="mb-1">{{ $proyek->nama_proyek }}</h4>
+                <small>Kode: {{ $proyek->kode_proyek }}</small>
             </div>
+            <span class="badge bg-light text-primary">{{ $proyek->tahun }}</span>
+        </div>
+        <div class="card-body">
+            <p class="mb-2"><strong>Lokasi:</strong> {{ $proyek->lokasi }}</p>
+            <p class="mb-2"><strong>Anggaran:</strong> {{ number_format($proyek->anggaran, 2) }}</p>
+            <p class="mb-2"><strong>Sumber Dana:</strong> {{ $proyek->sumber_dana }}</p>
+            @if($proyek->deskripsi)
+                <p class="mb-3"><strong>Deskripsi:</strong><br>{{ $proyek->deskripsi }}</p>
+            @endif
+            @if($proyek->dokumen)
+                <p class="mb-0">
+                    <strong>Dokumen:</strong>
+                    <a href="{{ asset('uploads/proyek/'.$proyek->dokumen) }}" target="_blank" class="ms-1">
+                        <i class="fa fa-file"></i> Lihat Dokumen
+                    </a>
+                </p>
+            @endif
+        </div>
+        <div class="card-footer d-flex justify-content-end gap-2">
+            <a href="{{ route('proyek.index') }}" class="btn btn-secondary">
+                <i class="fa fa-arrow-left"></i> Kembali
+            </a>
+            <a href="{{ route('proyek.edit', $proyek->proyek_id) }}" class="btn btn-warning">
+                <i class="fa fa-edit"></i> Edit
+            </a>
         </div>
     </div>
-</div>
+@stop
 
-<div class="container py-5">
-    <div class="row justify-content-center">
-        <div class="col-lg-8">
-            <div class="detail-card">
-                <div class="detail-card-header">
-                    <h3 class="mb-1">{{ $proyek->nama_proyek }}</h3>
-                    <p class="mb-0 opacity-75"><i class="fa fa-code me-2"></i>{{ $proyek->kode_proyek }}</p>
-                </div>
-                <div class="detail-card-body">
-                    <div class="detail-item">
-                        <div class="detail-label">
-                            <i class="fa fa-calendar"></i>
-                            <span>Tahun</span>
-                        </div>
-                        <div class="detail-value">{{ $proyek->tahun }}</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">
-                            <i class="fa fa-map-marker-alt"></i>
-                            <span>Lokasi</span>
-                        </div>
-                        <div class="detail-value">{{ $proyek->lokasi }}</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">
-                            <i class="fa fa-money-bill-wave"></i>
-                            <span>Anggaran</span>
-                        </div>
-                        <div class="detail-value">Rp {{ number_format($proyek->anggaran, 0, ',', '.') }}</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">
-                            <i class="fa fa-university"></i>
-                            <span>Sumber Dana</span>
-                        </div>
-                        <div class="detail-value">{{ $proyek->sumber_dana }}</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">
-                            <i class="fa fa-info-circle"></i>
-                            <span>Deskripsi</span>
-                        </div>
-                        <div class="detail-value">{{ $proyek->deskripsi }}</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">
-                            <i class="fa fa-file"></i>
-                            <span>Dokumen</span>
-                        </div>
-                        <div class="detail-value">
-                            @if($proyek->dokumen)
-                                <a href="{{ asset('uploads/proyek/' . $proyek->dokumen) }}" target="_blank" class="btn btn-primary btn-sm">
-                                    <i class="fa fa-download me-2"></i>Download Dokumen
-                                </a>
-                            @else
-                                <span class="text-muted">Tidak ada dokumen</span>
-                            @endif
-                        </div>
-                    </div>
-
-                    <div class="d-flex gap-2 mt-4">
-                        <a href="{{ route('proyek.index') }}" class="btn btn-secondary flex-fill">
-                            <i class="fa fa-arrow-left me-2"></i>Kembali ke Daftar
-                        </a>
-                        <a href="{{ route('proyek.edit', $proyek->proyek_id) }}" class="btn btn-warning flex-fill">
-                            <i class="fa fa-edit me-2"></i>Edit Proyek
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-@endsection
