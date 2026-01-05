@@ -1,145 +1,149 @@
+@extends('layouts.nova')
 
-<!DOCTYPE html>
-<html lang="id">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Pembangunan Guest</title>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
-    <style>
-        body {
-            background: #0f0f13;
-            color: #e9edf5;
-            font-family: 'Segoe UI', sans-serif;
-        }
-        .hero {
-            background: linear-gradient(135deg, #111827 0%, #0b1220 100%);
-            border-radius: 18px;
-            padding: 48px;
-            box-shadow: 0 15px 40px rgba(0,0,0,0.35);
-        }
-        .stat-card {
-            background: #161c2b;
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 14px;
-            padding: 18px;
-            height: 100%;
-        }
-        .stat-card h3 { margin: 0; color: #f472b6; }
-        .stat-card p { margin: 4px 0 0; color: #cbd5e1; }
-        .btn-primary {
-            background: #ec4899;
-            border-color: #ec4899;
-        }
-        .btn-primary:hover {
-            background: #db2777;
-            border-color: #db2777;
-        }
-        .feature-card {
-            background: #141a2a;
-            border: 1px solid rgba(255,255,255,0.05);
-            border-radius: 14px;
-            padding: 20px;
-            height: 100%;
-        }
-        a { text-decoration: none; }
-    </style>
-</head>
-<body>
-<div class="container py-5">
-    <div class="d-flex justify-content-between align-items-center mb-4">
-        <div class="d-flex align-items-center gap-3">
-            <i class="fa-solid fa-building text-pink" style="color:#ec4899;font-size:28px;"></i>
-            <div>
-                <h4 class="mb-0">Pembangunan Guest</h4>
-                <small class="text-muted">Sistem Manajemen Proyek Pembangunan</small>
-            </div>
-        </div>
-        <div class="d-flex gap-2">
-            <a class="btn btn-outline-light" href="{{ route('proyek.index') }}">
-                <i class="fa fa-database me-1"></i> Data Proyek
-            </a>
-            <a class="btn btn-primary" href="{{ route('proyek.create') }}">
-                <i class="fa fa-plus me-1"></i> Tambah Proyek
-            </a>
-        </div>
-    </div>
+@section('title', 'Home - Sistem Monitoring Proyek Pembangunan')
 
-    <div class="hero mb-4">
+@section('content')
+<!-- Hero Section -->
+<section class="hero-section hero-style-5" style="padding: 60px 0;">
+    <div class="container">
         <div class="row align-items-center">
-            <div class="col-lg-7">
-                <h1 class="fw-bold mb-3">Monitoring Proyek Pembangunan dalam Satu Layar</h1>
-                <p class="mb-4 text-light">
-                    Pantau progres, lokasi, kontraktor, dan tahapan proyek secara real-time.
-                    Gunakan fitur filter, pencarian, serta lampiran dokumen untuk setiap proyek.
-                </p>
-                <div class="d-flex gap-2">
-                    <a class="btn btn-primary btn-lg" href="{{ route('proyek.index') }}">
-                        <i class="fa fa-chart-line me-2"></i> Lihat Dashboard Proyek
-                    </a>
-                    <a class="btn btn-outline-light btn-lg" href="{{ route('progres_proyek.index') }}">
-                        <i class="fa fa-list-check me-2"></i> Data Progress
-                    </a>
+            <div class="col-lg-6">
+                <div class="hero-content-wrapper">
+                    <h2 class="mb-30 wow fadeInUp" data-wow-delay=".2s">Monitoring Proyek Pembangunan</h2>
+                    <p class="mb-30 wow fadeInUp" data-wow-delay=".4s">Kelola dan pantau semua proyek pembangunan Anda dalam satu platform terpadu. Tracking progress, lokasi, kontraktor, dan tahapan proyek secara real-time.</p>
+                    <div class="d-flex gap-3 flex-wrap wow fadeInUp" data-wow-delay=".6s">
+                        <a href="{{ route('proyek.index') }}" class="button button-primary">
+                            <i class="fas fa-chart-line me-2"></i> Lihat Data Proyek
+                        </a>
+                        <a href="{{ route('progres_proyek.index') }}" class="button button-secondary">
+                            <i class="fas fa-tasks me-2"></i> Data Progress
+                        </a>
+                    </div>
                 </div>
             </div>
-            <div class="col-lg-5 mt-4 mt-lg-0">
+            <div class="col-lg-6">
                 <div class="row g-3">
                     <div class="col-6">
-                        <div class="stat-card">
-                            <h3>{{ $stats['proyek'] ?? 0 }}</h3>
-                            <p>Total Proyek</p>
+                        <div class="stat-card wow fadeInUp" data-wow-delay=".2s">
+                            <h3 class="mb-2" style="color: var(--primary-color); font-size: 32px; font-weight: 700;">{{ $stats['proyek'] ?? 0 }}</h3>
+                            <p style="color: #718096; margin: 0;">Total Proyek</p>
                         </div>
                     </div>
                     <div class="col-6">
-                        <div class="stat-card">
-                            <h3>{{ $stats['tahapan'] ?? 0 }}</h3>
-                            <p>Tahapan Terdata</p>
+                        <div class="stat-card wow fadeInUp" data-wow-delay=".3s">
+                            <h3 class="mb-2" style="color: var(--primary-color); font-size: 32px; font-weight: 700;">{{ $stats['tahapan'] ?? 0 }}</h3>
+                            <p style="color: #718096; margin: 0;">Tahapan Terdata</p>
                         </div>
                     </div>
                     <div class="col-12">
-                        <div class="stat-card">
-                            <h3>{{ $stats['progress'] ?? 0 }}</h3>
-                            <p>Catatan Progress</p>
+                        <div class="stat-card wow fadeInUp" data-wow-delay=".4s">
+                            <h3 class="mb-2" style="color: var(--primary-color); font-size: 32px; font-weight: 700;">{{ $stats['progress'] ?? 0 }}</h3>
+                            <p style="color: #718096; margin: 0;">Catatan Progress</p>
+                            <small style="color: #A0AEC0;">Update persentase real, tanggal, dan catatan untuk setiap tahapan.</small>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
+</section>
 
-    <div class="row g-3">
-        <div class="col-md-4">
-            <div class="feature-card">
-                <div class="d-flex align-items-center mb-2">
-                    <i class="fa fa-map-marker-alt me-2 text-primary"></i>
-                    <h5 class="mb-0">Lokasi & GeoJSON</h5>
+<!-- Features Section -->
+<section class="feature-section feature-style-5" style="padding: 60px 0; background-color: #F7FAFC;">
+    <div class="container">
+        <div class="row justify-content-center mb-50">
+            <div class="col-xxl-5 col-xl-5 col-lg-7 col-md-8">
+                <div class="section-title text-center">
+                    <h3 class="mb-15 wow fadeInUp" data-wow-delay=".2s">Fitur Unggulan</h3>
+                    <p class="wow fadeInUp" data-wow-delay=".4s">Kelola proyek pembangunan dengan mudah menggunakan fitur-fitur canggih kami.</p>
                 </div>
-                <p class="text-muted mb-2">Simpan koordinat lat/lng dan lampirkan file GeoJSON untuk peta detail.</p>
-                <a class="text-primary" href="{{ route('proyek.index') }}">Kelola lokasi</a>
             </div>
         </div>
-        <div class="col-md-4">
-            <div class="feature-card">
-                <div class="d-flex align-items-center mb-2">
-                    <i class="fa fa-briefcase me-2 text-primary"></i>
-                    <h5 class="mb-0">Kontraktor</h5>
+
+        <div class="row">
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".2s">
+                <div class="card h-100" style="border: none; padding: 30px;">
+                    <div class="mb-20">
+                        <i class="fas fa-map-marker-alt" style="font-size: 40px; color: var(--primary-color);"></i>
+                    </div>
+                    <h5 class="mb-15">Lokasi & Koordinat</h5>
+                    <p class="mb-20" style="color: #718096;">Simpan koordinat latitude/longitude dan lampirkan file GeoJSON untuk peta detail setiap proyek.</p>
+                    <a href="{{ route('proyek.index') }}" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Kelola Lokasi →</a>
                 </div>
-                <p class="text-muted mb-2">Catat penanggung jawab, kontak, dan alamat kontraktor tiap proyek.</p>
-                <a class="text-primary" href="{{ route('proyek.index') }}">Lihat proyek</a>
             </div>
-        </div>
-        <div class="col-md-4">
-            <div class="feature-card">
-                <div class="d-flex align-items-center mb-2">
-                    <i class="fa fa-tasks me-2 text-primary"></i>
-                    <h5 class="mb-0">Progress & Tahapan</h5>
+
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".4s">
+                <div class="card h-100" style="border: none; padding: 30px;">
+                    <div class="mb-20">
+                        <i class="fas fa-briefcase" style="font-size: 40px; color: var(--primary-color);"></i>
+                    </div>
+                    <h5 class="mb-15">Manajemen Kontraktor</h5>
+                    <p class="mb-20" style="color: #718096;">Catat penanggung jawab, informasi kontak, dan alamat kontraktor untuk setiap proyek pembangunan.</p>
+                    <a href="{{ route('proyek.index') }}" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Lihat Proyek →</a>
                 </div>
-                <p class="text-muted mb-2">Update persentase real, tanggal, dan catatan untuk setiap tahapan.</p>
-                <a class="text-primary" href="{{ route('progres_proyek.index') }}">Kelola progress</a>
+            </div>
+
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".6s">
+                <div class="card h-100" style="border: none; padding: 30px;">
+                    <div class="mb-20">
+                        <i class="fas fa-tasks" style="font-size: 40px; color: var(--primary-color);"></i>
+                    </div>
+                    <h5 class="mb-15">Tracking Progress</h5>
+                    <p class="mb-20" style="color: #718096;">Update persentase progress, tanggal realisasi, dan catatan untuk setiap tahapan proyek secara real-time.</p>
+                    <a href="{{ route('progres_proyek.index') }}" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Kelola Progress →</a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".3s">
+                <div class="card h-100" style="border: none; padding: 30px;">
+                    <div class="mb-20">
+                        <i class="fas fa-file-alt" style="font-size: 40px; color: var(--primary-color);"></i>
+                    </div>
+                    <h5 class="mb-15">Dokumentasi Proyek</h5>
+                    <p class="mb-20" style="color: #718096;">Lampirkan dokumen penting seperti BAP, RKK, atau file lainnya untuk setiap proyek dengan mudah.</p>
+                    <a href="{{ route('proyek.index') }}" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Lihat Dokumen →</a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".5s">
+                <div class="card h-100" style="border: none; padding: 30px;">
+                    <div class="mb-20">
+                        <i class="fas fa-search" style="font-size: 40px; color: var(--primary-color);"></i>
+                    </div>
+                    <h5 class="mb-15">Filter & Pencarian</h5>
+                    <p class="mb-20" style="color: #718096;">Cari proyek berdasarkan nama, kode, tahun, atau sumber dana dengan filter canggih kami.</p>
+                    <a href="{{ route('proyek.index') }}" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Cari Proyek →</a>
+                </div>
+            </div>
+
+            <div class="col-lg-4 col-md-6 wow fadeInUp" data-wow-delay=".7s">
+                <div class="card h-100" style="border: none; padding: 30px;">
+                    <div class="mb-20">
+                        <i class="fas fa-chart-bar" style="font-size: 40px; color: var(--primary-color);"></i>
+                    </div>
+                    <h5 class="mb-15">Laporan & Analitik</h5>
+                    <p class="mb-20" style="color: #718096;">Dapatkan laporan komprehensif dan analitik mendalam tentang progress semua proyek Anda.</p>
+                    <a href="{{ route('proyek.index') }}" style="color: var(--primary-color); text-decoration: none; font-weight: 600;">Lihat Laporan →</a>
+                </div>
             </div>
         </div>
     </div>
-</div>
-</body>
-</html>
+</section>
+
+<!-- CTA Section -->
+<section style="padding: 60px 0;">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-8">
+                <h3 class="mb-20">Siap untuk memulai?</h3>
+                <p style="font-size: 16px; color: #718096; margin-bottom: 0;">Kelola proyek pembangunan Anda dengan lebih efisien dan transparan. Mulai tracking progress hari ini juga!</p>
+            </div>
+            <div class="col-lg-4 text-lg-end">
+                <a href="{{ route('proyek.index') }}" class="button button-primary">
+                    <i class="fas fa-arrow-right me-2"></i> Mulai Sekarang
+                </a>
+            </div>
+        </div>
+    </div>
+</section>
+@endsection
