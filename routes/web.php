@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\KontraktorController;
 use App\Http\Controllers\LokasiProyekController;
 use App\Http\Controllers\ProgresProyekController;
 use App\Http\Controllers\ProyekController;
@@ -41,6 +42,9 @@ Route::get('tahapan_proyek/{tahapan_proyek}', [TahapanProyekController::class, '
 
 Route::get('progres_proyek', [ProgresProyekController::class, 'index'])->name('progres_proyek.index');
 Route::get('progres_proyek/{progres_proyek}', [ProgresProyekController::class, 'show'])->name('progres_proyek.show');
+
+Route::get('kontraktor', [KontraktorController::class, 'index'])->name('kontraktor.index');
+Route::get('kontraktor/{kontraktor}', [KontraktorController::class, 'show'])->name('kontraktor.show');
 
 Route::get('lokasi', [LokasiProyekController::class, 'index'])->name('lokasi.index');
 Route::get('lokasi/{lokasi}', [LokasiProyekController::class, 'show'])->name('lokasi.show');

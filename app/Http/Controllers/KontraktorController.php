@@ -8,67 +8,71 @@ use Illuminate\Http\Request;
 
 class KontraktorController extends Controller
 {
-    public function index()
+    /**
+     * Display a listing of the resource.
+     */
+    public function index(Request $request)
     {
-        $kontraktor = Kontraktor::with('proyek')->get();
-        return view('kontraktor.index', compact('kontraktor'));
+        $query = Kontraktor::with('proyek');
+
+        // Search functionality
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function($q) use ($search) {
+                $q->where('nama', 'like', "%{$search}%")
+                  ->orWhere('penanggung_jawab', 'like', "%{$search}%")
+                  ->orWhere('kontak', 'like', "%{$search}%")
+                  ->orWhere('alamat', 'like', "%{$search}%")
+                  ->orWhereHas('proyek', function($q) use ($search) {
+                      $q->where('nama_proyek', 'like', "%{$search}%");
+                  });
+            });
+        }
+
+        // Filter by year
+        if ($request->filled('tahun')) {
+            $query->whereHas('proyek', function($q) use ($request) {
+                $q->where('tahun', $request->tahun);
+            });
+        }
+
+        // Filter by contractor
+        if ($request->filled('kontraktor')) {
+            $query->where('nama', 'like', "%{$request->kontraktor}%");
+        }
+
+        $kontraktors = $query->paginate(10);
+
+        // Get unique contractors for filter
+        $uniqueKontraktors = Kontraktor::select('nama')
+            ->whereNotNull('nama')
+            ->where('nama', '!=', '')
+            ->distinct()
+            ->pluck('nama');
+
+        // Get years for filter
+        $years = Proyek::select('tahun')
+            ->whereNotNull('tahun')
+            ->distinct()
+            ->orderBy('tahun', 'desc')
+            ->pluck('tahun');
+
+        return view('kontraktor.index', compact('kontraktors', 'uniqueKontraktors', 'years'));
     }
 
-    public function create()
+    /**
+     * Display the specified resource.
+     */
+    public function show(string $id)
     {
-        $proyek = Proyek::all();
-        return view('kontraktor.create', compact('proyek'));
-    }
-
-    public function store(Request $request)
-    {
-        $request->validate([
-            'proyek_id' => 'required|exists:proyek,proyek_id',
-            'nama' => 'required|string|max:255',
-            'penanggung_jawab' => 'nullable|string|max:255',
-            'kontak' => 'nullable|string|max:255',
-            'alamat' => 'nullable|string'
-        ]);
-
-        Kontraktor::create($request->all());
-
-        return redirect()->route('kontraktor.index')->with('success', 'Kontraktor berhasil ditambahkan!');
-    }
-
-    public function show($id)
-    {
-        $kontraktor = Kontraktor::findOrFail($id);
-        return view('kontraktor.show', compact('kontraktor'));
-    }
-
-    public function edit($id)
-    {
-        $kontraktor = Kontraktor::findOrFail($id);
-        $proyek = Proyek::all();
-        return view('kontraktor.edit', compact('kontraktor', 'proyek'));
-    }
-
-    public function update(Request $request, $id)
-    {
-        $kontraktor = Kontraktor::findOrFail($id);
+        $kontraktor = Kontraktor::with('proyek')->findOrFail($id);
         
-        $request->validate([
-            'proyek_id' => 'required|exists:proyek,proyek_id',
-            'nama' => 'required|string|max:255',
-            'penanggung_jawab' => 'nullable|string|max:255',
-            'kontak' => 'nullable|string|max:255',
-            'alamat' => 'nullable|string'
-        ]);
+        // Get other projects by the same contractor
+        $otherProjects = Kontraktor::with('proyek')
+            ->where('nama', $kontraktor->nama)
+            ->where('kontraktor_id', '!=', $id)
+            ->get();
 
-        $kontraktor->update($request->all());
-
-        return redirect()->route('kontraktor.index')->with('success', 'Kontraktor berhasil diperbarui!');
-    }
-
-    public function destroy($id)
-    {
-        $kontraktor = Kontraktor::findOrFail($id);
-        $kontraktor->delete();
-        return redirect()->route('kontraktor.index')->with('success', 'Kontraktor berhasil dihapus!');
+        return view('kontraktor.show', compact('kontraktor', 'otherProjects'));
     }
 }

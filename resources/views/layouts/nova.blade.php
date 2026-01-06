@@ -472,13 +472,13 @@
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('lokasi.index') }}">
-                                            <i class="fas fa-map-marker-alt"></i> Lokasi
+                                        <a class="nav-link" href="{{ route('kontraktor.index') }}">
+                                            <i class="fas fa-users"></i> Kontraktor
                                         </a>
                                     </li>
                                     <li class="nav-item">
-                                        <a class="nav-link" href="{{ route('login') }}">
-                                            <i class="fas fa-sign-in-alt"></i> Login
+                                        <a class="nav-link" href="{{ route('proyek.index') }}">
+                                            <i class="fas fa-map-marker-alt"></i> Lokasi
                                         </a>
                                     </li>
                                 </ul>
@@ -525,8 +525,8 @@
                                 <li> <a href="{{ route('proyek.index') }}">Proyek</a> </li>
                                 <li> <a href="{{ route('tahapan_proyek.index') }}">Tahapan</a> </li>
                                 <li> <a href="{{ route('progres_proyek.index') }}">Progress</a> </li>
-                                <li> <a href="{{ route('lokasi.index') }}">Lokasi</a> </li>
-                                <li> <a href="{{ route('login') }}">Login</a> </li>
+                                <li> <a href="{{ route('kontraktor.index') }}">Kontraktor</a> </li>
+                                <li> <a href="{{ route('proyek.index') }}">Lokasi</a> </li>
                             </ul>
                         </div>
                     </div>

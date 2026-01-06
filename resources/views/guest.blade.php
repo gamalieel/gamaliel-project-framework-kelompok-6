@@ -163,7 +163,7 @@
         </div>
 
         <div class="row g-4">
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card text-center h-100" style="border: none; padding: 25px;">
                     <div style="font-size: 48px; margin-bottom: 20px;">
                         <i class="fas fa-folder-open" style="color: var(--primary-color);"></i>
@@ -176,7 +176,7 @@
                 </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card text-center h-100" style="border: none; padding: 25px;">
                     <div style="font-size: 48px; margin-bottom: 20px;">
                         <i class="fas fa-sitemap" style="color: var(--primary-color);"></i>
@@ -189,7 +189,7 @@
                 </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card text-center h-100" style="border: none; padding: 25px;">
                     <div style="font-size: 48px; margin-bottom: 20px;">
                         <i class="fas fa-tasks" style="color: var(--primary-color);"></i>
@@ -202,15 +202,15 @@
                 </div>
             </div>
 
-            <div class="col-md-3">
+            <div class="col-md-4">
                 <div class="card text-center h-100" style="border: none; padding: 25px;">
                     <div style="font-size: 48px; margin-bottom: 20px;">
-                        <i class="fas fa-sign-in-alt" style="color: var(--primary-color);"></i>
+                        <i class="fas fa-chart-bar" style="color: var(--primary-color);"></i>
                     </div>
-                    <h5 class="mb-15">Login Admin</h5>
-                    <p style="color: #718096; margin-bottom: 20px;">Akses panel admin untuk manajemen data yang lebih lengkap.</p>
-                    <a href="{{ route('login') }}" class="button button-primary" style="display: inline-block;">
-                        Login Sekarang
+                    <h5 class="mb-15">Laporan Data</h5>
+                    <p style="color: #718096; margin-bottom: 20px;">Lihat laporan dan statistik lengkap semua proyek pembangunan.</p>
+                    <a href="{{ route('proyek.index') }}" class="button button-primary" style="display: inline-block;">
+                        Lihat Laporan
                     </a>
                 </div>
             </div>
@@ -229,8 +229,8 @@
             <a href="{{ route('proyek.index') }}" class="btn btn-light btn-lg">
                 <i class="fas fa-arrow-right me-2"></i> Mulai Sekarang
             </a>
-            <a href="{{ route('login') }}" class="btn btn-outline-light btn-lg">
-                <i class="fas fa-sign-in-alt me-2"></i> Login Admin
+            <a href="{{ route('progres_proyek.index') }}" class="btn btn-outline-light btn-lg">
+                <i class="fas fa-chart-bar me-2"></i> Lihat Progress
             </a>
         </div>
     </div>
