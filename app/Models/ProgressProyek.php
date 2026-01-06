@@ -9,7 +9,7 @@ class ProgressProyek extends Model
 {
     use HasFactory;
 
-    protected $table = 'progress_proyek';
+    protected $table = 'progres_proyek';
     protected $primaryKey = 'progres_id';
 
     protected $fillable = [
